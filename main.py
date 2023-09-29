@@ -1,10 +1,12 @@
 import tkinter as tk
+import tkinter.font as tkFont
 from tkinter import ttk
 import json
 from data import Safty_Data
 from os import getenv
 from dotenv import load_dotenv
 load_dotenv()
+
 
 # 列名的字符串常量
 COLUMN_1 = "平台"
@@ -19,6 +21,16 @@ data = []
 # 創建主視窗
 root = tk.Tk()
 root.title("密碼資料庫")
+
+default_font = tkFont.nametofont("TkDefaultFont")
+default_font.configure(size=13)
+root.option_add("*Font", default_font)
+
+tree_style = ttk.Style()
+tree_style.configure("Treeview", background="white", foreground="black")  # 设置表格背景和前景颜色
+tree_style.configure("Treeview.Heading", font=("Arial", 12, "bold"))  # 设置表头的字体和样式
+tree_style.map("Treeview", background=[("selected", "#A3A3A3")])  # 设置选中行的背景颜色
+
 
 # 創建表格
 tree = ttk.Treeview(root, columns=(COLUMN_1, COLUMN_2, COLUMN_3, COLUMN_4), show="headings")
