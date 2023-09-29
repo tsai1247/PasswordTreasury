@@ -1,0 +1,1 @@
+KEY_NOT_FOUND_ERROR = 'key尚未建立或不存在，將重新產生'
