@@ -65,6 +65,21 @@ label4.grid(row=0, column=6, padx=5)  # 增加水平間距
 entry4 = tk.Entry(input_frame)
 entry4.grid(row=0, column=7, padx=5)  # 增加水平間距
 
+def on_entry_change(*args):
+    database.password = entry5.get()
+    load_data()
+
+label5 = tk.Label(input_frame, text=f"密碼")
+label5.grid(row=1, column=0, padx=5)  # 增加水平間距
+entry_text = tk.StringVar()
+entry_text.trace("w", on_entry_change)
+entry5 = tk.Entry(input_frame, show="*", textvariable=entry_text)
+entry5.grid(row=1, column=1, padx=5)  # 增加水平間距
+
+
+
+
+
 
 # 添加行的函數
 def add_row():

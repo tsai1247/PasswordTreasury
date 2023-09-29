@@ -56,7 +56,6 @@ class AES():
 
             self.key = PBKDF2(password, salt, dkLen=32)
 
-            print('key: ', b64encode(self.key).decode('utf-8'))
         return self.key
     
     def encrypt(self, data: str) -> AESEncrypted:
@@ -88,5 +87,5 @@ class AES():
             # 輸出解密後的資料
             return originalData.decode()
         except:
-            return data
+            return "************"
 

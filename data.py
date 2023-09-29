@@ -2,7 +2,8 @@
 from datetime import datetime
 import sqlite3
 from sql_commands import sql_commands
-from AES import AES, AESEncrypted
+from AES import AES
+import json
 
 class Data():
     def __init__(self, path='data.db') -> None:
@@ -76,7 +77,7 @@ class Data():
 
 class Safty_Data(Data):
     def __init__(self, path, password) -> None:
-        self.aes = AES(password)
+        self.password = password
         super().__init__(path)
     
     def init(self):
@@ -87,12 +88,16 @@ class Safty_Data(Data):
         for i in range(len(ret)):
             tmp = list(ret[i])
             for j in range(len(tmp)):
-                tmp[j] = self.aes.decrypt(tmp[j])
+                try:
+                    json.loads(tmp[j])
+                    tmp[j] = AES(self.password).decrypt(tmp[j])
+                except:
+                    pass
             ret[i] = tuple(tmp)
         return ret
 
     def add(self, platform, account, password, remark, modifyDate=datetime.now(), createDate=datetime.now()):
-        password = self.aes.encrypt(str(password)).get()
+        password = AES(self.password).encrypt(str(password)).get()
         return super().add(platform, account, password, remark, modifyDate, createDate)
     
     def delete(self, platform=None, account=None):
