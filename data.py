@@ -11,10 +11,11 @@ class Data():
         self.con = sqlite3.connect(self.path)
         self.cur = self.con.cursor()
 
-        try:
+        if not self.isInited():
             self.init()
-        except:
-            pass
+
+    def isInited(self):
+        return self.execute(sql_commands.TREASURY_TABLE_CHECK).fetchone() is not None
 
     def execute(self, command: str, condition = None, parameters = None):
         if condition is not None:

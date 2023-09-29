@@ -31,3 +31,7 @@ class sql_commands:
         UPDATE treasury
         SET 
     '''
+
+    TREASURY_TABLE_CHECK = '''
+        SELECT name FROM sqlite_master WHERE type='table' AND name='treasury'
+    '''
