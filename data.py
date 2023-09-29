@@ -36,10 +36,11 @@ class Data():
         # 失敗output: 讀寫失敗
         condition = ''
         parameters = []
-        if platform:
-            condition += f' AND Platform = ?'
+        if platform is not None:
+            platform = f'%{platform}%'
+            condition += f" AND Platform LIKE ?"
             parameters.append(platform)
-        if account:
+        if account is not None:
             condition += f' AND Account = ?'
             parameters.append(account)
 
@@ -89,7 +90,7 @@ class Safty_Data(Data):
             tmp = list(ret[i])
             for j in range(len(tmp)):
                 try:
-                    json.loads(tmp[j])
+                    json.loads(tmp[j])['iv']
                     tmp[j] = AES(self.password).decrypt(tmp[j])
                 except:
                     pass

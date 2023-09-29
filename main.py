@@ -42,15 +42,11 @@ tree.pack()
 
 def load_data():
     global data, tree
-    data = database.load()
+    data = database.load(entry7.get())
     tree.delete(*tree.get_children())
         # 初始化表格中的數據
     for row_data in data:
         tree.insert('', 'end', values=row_data)
-
-
-load_data()
-
 
 # 創建一個框架來容納輸入框和添加按鈕
 input_frame = tk.Frame(root)
@@ -88,6 +84,16 @@ entry_text.trace("w", on_entry_change)
 entry5 = tk.Entry(input_frame, show="*", textvariable=entry_text)
 entry5.grid(row=1, column=1, padx=5)  # 增加水平間距
 
+def on_keyword_change(*args):
+    load_data()
+
+label6 = tk.Label(input_frame, text=f"關鍵字")
+label6.grid(row=1, column=2, padx=5)  # 增加水平間距
+entry_text2 = tk.StringVar()
+entry_text2.trace("w", on_keyword_change)
+entry7 = tk.Entry(input_frame, show="*", textvariable=entry_text2)
+entry7.grid(row=1, column=3, padx=5)  # 增加水平間距
+
 
 
 
@@ -95,6 +101,7 @@ entry5.grid(row=1, column=1, padx=5)  # 增加水平間距
 
 # 添加行的函數
 def add_row():
+    if entry5.get().strip() == '': return
     value1 = entry1.get().strip()
     value2 = entry2.get().strip()
     value3 = entry3.get().strip()
@@ -113,9 +120,10 @@ def add_row():
 
 # 刪除行的函數
 def delete_row():
-    selected = tree.item(tree.selection())
-    selected.get("values")[0]
-    database.delete(selected.get("values")[0], selected.get("values")[1])
+    for id in tree.selection():
+        selected = tree.item(id)
+        selected.get("values")[0]
+        database.delete(selected.get("values")[0], selected.get("values")[1])
     
     load_data()
 
@@ -126,6 +134,8 @@ add_button.grid(row=0, column=8, padx=5)  # 增加水平間距
 # 刪除行的按鈕
 delete_button = tk.Button(input_frame, text="刪除選定行", command=delete_row)
 delete_button.grid(row=0, column=9, padx=5)  # 增加水平間距
+
+load_data()
 
 # 啟動應用程序的主迴圈
 root.mainloop()
