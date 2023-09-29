@@ -1,10 +1,13 @@
 import tkinter as tk
 import tkinter.font as tkFont
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import json
 from data import Safty_Data
+import random
+import string
 from os import getenv
 from dotenv import load_dotenv
+import pyperclip
 load_dotenv()
 
 
@@ -42,7 +45,7 @@ tree.pack()
 
 def load_data():
     global data, tree
-    data = database.load(entry7.get())
+    data = database.load(entry6.get())
     tree.delete(*tree.get_children())
         # 初始化表格中的數據
     for row_data in data:
@@ -88,16 +91,23 @@ def on_keyword_change(*args):
     load_data()
 
 label6 = tk.Label(input_frame, text=f"關鍵字")
-label6.grid(row=1, column=2, padx=5)  # 增加水平間距
+label6.grid(row=1, column=3, padx=5)  # 增加水平間距
 entry_text2 = tk.StringVar()
 entry_text2.trace("w", on_keyword_change)
-entry7 = tk.Entry(input_frame, show="*", textvariable=entry_text2)
-entry7.grid(row=1, column=3, padx=5)  # 增加水平間距
+entry6 = tk.Entry(input_frame, show="*", textvariable=entry_text2)
+entry6.grid(row=1, column=4, padx=5)  # 增加水平間距
 
+def set_random_password(length=12):
+    characters = string.ascii_letters + string.digits + string.punctuation
+    password = ''.join(random.choice(characters) for _ in range(length))
+    entry_text.set(password)
+    pyperclip.copy(password)
+    messagebox.showinfo('密碼隨機生成', '密碼已儲存到剪貼簿，請妥善保存')
+    
 
-
-
-
+# 添加行的按鈕
+random_password_button = tk.Button(input_frame, text="隨機生成", command=set_random_password)
+random_password_button.grid(row=1, column=2, padx=5)  # 增加水平間距
 
 # 添加行的函數
 def add_row():
