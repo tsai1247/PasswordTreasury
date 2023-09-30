@@ -91,11 +91,11 @@ def on_keyword_change(*args):
     load_data()
 
 label6 = tk.Label(input_frame, text=f"關鍵字")
-label6.grid(row=1, column=3, padx=5)  # 增加水平間距
+label6.grid(row=1, column=4, padx=5)  # 增加水平間距
 entry_text2 = tk.StringVar()
 entry_text2.trace("w", on_keyword_change)
-entry6 = tk.Entry(input_frame, show="*", textvariable=entry_text2)
-entry6.grid(row=1, column=4, padx=5)  # 增加水平間距
+entry6 = tk.Entry(input_frame, textvariable=entry_text2)
+entry6.grid(row=1, column=5, padx=5)  # 增加水平間距
 
 def set_random_password(length=12):
     characters = string.ascii_letters + string.digits + string.punctuation
@@ -111,7 +111,9 @@ random_password_button.grid(row=1, column=2, padx=5)  # 增加水平間距
 
 # 添加行的函數
 def add_row():
-    if entry5.get().strip() == '': return
+    if entry5.get().strip() == '': 
+        messagebox.showwarning('缺少密碼', '請輸入密碼')
+        return
     value1 = entry1.get().strip()
     value2 = entry2.get().strip()
     value3 = entry3.get().strip()
